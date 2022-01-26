@@ -35,8 +35,20 @@ void Stud::StudSet(string id_input, string name_input, int grade_input)
 int main()
 {
 	int i;
-	cout << "输入记录个数: " << endl;
-	cin >> i;
+	while (true){
+		cout << "输入记录个数: " << endl;
+		try
+		{
+			cin >> i;
+			break;
+		}
+		catch (const std::exception&)
+		{
+			cout << "输入错误重新输入 " << endl;
+			continue;
+		}
+		
+	}
     Stud stud_list[10] = {};
 	int index = 0;
 	while (index<i)
@@ -45,16 +57,51 @@ int main()
 		string id_input;
 		string name_input;
 		int grade;
-		cout << "输入学号: " << endl;
-		cin >> id_input;
+		int flag = 0;
+		while (true)
+		{
+			cout << "输入学号: " << endl;
+			cin >> id_input;
+			for (int z = 0; z < index; z++) {
+				if (stud_list[z].id == id_input)
+				{
+					cout << "重复学号，重新输入! " << endl;
+					flag = 1;
+					break;
+				}
+				else {
+					flag = 0;
+				}
+			}
+			if (flag == 0) {
+				break;
+			}
+		}
 		cout << "输入姓名: " << endl;
 		cin >> name_input;
-		cout << "输入成绩: " << endl;
-		cin >> grade;
+		while (true)
+		{
+			try
+			{
+				cout << "输入成绩: " << endl;
+				cin >> grade;
+				if (grade<0||grade>100)
+				{
+					cout << "成绩输入错误: " << endl;
+					continue;
+				}
+				break;
+			}
+			catch (const std::exception&)
+			{
+				cout << "成绩输入错误: " << endl;
+				continue;
+			}
+		}			
 		stud.StudSet(id_input, name_input, grade);
 		stud_list[index] = stud;
-		cout << "是否继续(y/n): " << endl;
 		index++;
+		cout << "是否继续(y/n): " << endl;
 		char order;
 		cin >> order;
 		if (order != 'y') {
